@@ -24,10 +24,10 @@ fn QuickSort(mass: Vec<i32>) -> Vec<i32>{
     return ConverOneVec(&[QuickSort(l_nums), e_nums, QuickSort(b_nums)]);
 }
 
-fn ConverOneVec<T>(vectors: &[Vec<T>]) ->Vec<T>{
+fn ConverOneVec(vectors: &[Vec<i32>]) -> Vec<i32>{
     let mut returElemAdd: Vec<i32> = Vec::new();
-    for i in vectors.iter(){
-        let mut elem = i.clone();
+    for i in 0..vectors.len(){
+        let mut elem = vectors[i].clone();
         returElemAdd.append(&mut elem);
     }
     return returElemAdd.clone();
