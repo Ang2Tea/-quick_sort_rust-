@@ -17,18 +17,18 @@ fn QuickSort(mass: Vec<i32>) -> Vec<i32>{
     let mut e_nums= vec!(mass[randNum]);
     let mut b_nums= Vec::new();
     for i in mass.iter(){
-        if (i < &mass[randNum]){
-            l_nums.push(i.clone());
-        }
-        else if (i > &mass[randNum]){
-            b_nums.push(i.clone());
-        }
+        if (i < &mass[randNum]){ l_nums.push(i.clone()); continue;}
+        if (i > &mass[randNum]){ b_nums.push(i.clone()); }
     }
 
+    return ConverOneVec(&[QuickSort(l_nums), e_nums, QuickSort(b_nums)]);
+}
+
+fn ConverOneVec<T>(vectors: &[Vec<T>]) ->Vec<T>{
     let mut returElemAdd: Vec<i32> = Vec::new();
-    returElemAdd.append(&mut QuickSort(l_nums));
-    returElemAdd.append(&mut e_nums);
-    returElemAdd.append(&mut QuickSort(b_nums));
-    let returElem= returElemAdd.clone();
-    return returElem;
+    for i in vectors.iter(){
+        let mut elem = i.clone();
+        returElemAdd.append(&mut elem);
+    }
+    return returElemAdd.clone();
 }
