@@ -1,34 +1,33 @@
-use rand::Rng;
-
 fn main() {
-    let test = vec!(3, 1, 2, 0, 4, 6, 8, 5, 7);
-    println!("{:?}", QuickSort(test));
+    let mut test = vec!(3, 1, 2, 0, 0, 4, 6, 8, 5, 7);
+    quick_sort(test.as_mut_slice());
+    println!("{:?}", test);
 }
 
-fn QuickSort(mass: Vec<i32>) -> Vec<i32>{
-    let randNum: usize;
-    if (mass.len() <= 1) {
-        return mass;
-    } else {
-        randNum = rand::thread_rng().gen_range(1..mass.len());
+fn quick_sort(sort_mass: &mut [i32]){
+    if sort_mass.len() < 2 {
+        return;
     }
 
-    let mut l_nums= Vec::new();
-    let mut e_nums= vec!(mass[randNum]);
-    let mut b_nums= Vec::new();
-    for i in mass.iter(){
-        if (i < &mass[randNum]){ l_nums.push(i.clone()); continue;}
-        if (i > &mass[randNum]){ b_nums.push(i.clone()); }
-    }
+    let mut e_min:Vec<i32> = Vec::new();
+    let mut e_max:Vec<i32> = Vec::new();
 
-    return ConverOneVec(&[QuickSort(l_nums), e_nums, QuickSort(b_nums)]);
-}
-
-fn ConverOneVec(vectors: &[Vec<i32>]) -> Vec<i32>{
-    let mut returElemAdd: Vec<i32> = Vec::new();
-    for i in 0..vectors.len(){
-        let mut elem = vectors[i].clone();
-        returElemAdd.append(&mut elem);
+    for i in &sort_mass[1..]{
+        if *i < sort_mass[0]{
+            e_min.push(*i);
+        }
+        if *i > sort_mass[0]{
+            e_max.push(*i);
+        }
     }
-    return returElemAdd.clone();
+    quick_sort(e_min.as_mut_slice());
+    quick_sort(e_max.as_mut_slice());
+
+    e_min.push(sort_mass[0]);
+    e_min.extend(e_max);
+
+    for (num, i) in e_min.iter().enumerate()
+	{
+		sort_mass[num]=*i;
+	}
 }
